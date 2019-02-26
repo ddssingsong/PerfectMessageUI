@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="8dp">
+
+    <!--显示时间-->
+    <com.dds.messagelist.widget.RoundTextView
+        android:id="@+id/message_tv_msg_item_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="2月4日 晚上19：21" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <!--头像 60dp-->
+        <com.dds.messagelist.widget.RoundImageView
+            android:id="@+id/message_iv_msg_item_avatar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/message_avatar_default"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!--昵称-->
+        <TextView
+            android:id="@+id/message_tv_msg_item_receiver_display_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_toEndOf="@id/message_iv_msg_item_avatar"
+            android:ems="10"
+            android:gravity="end"
+            android:text="昵称昵称昵称"
+            app:layout_constraintEnd_toStartOf="@+id/message_iv_msg_item_avatar" />
+        <!--消息内容-->
+        <RelativeLayout
+            android:id="@+id/message_msg_item_msg_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/message_tv_msg_item_receiver_display_name"
+            android:layout_toEndOf="@id/message_iv_msg_item_avatar"
+            android:paddingStart="24dp"
+            app:layout_constraintEnd_toStartOf="@+id/message_iv_msg_item_avatar"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/message_tv_msg_item_receiver_display_name">
+
+            <ProgressBar
+                android:id="@+id/message_pb_msg_progress"
+                android:layout_width="16dip"
+                android:layout_height="16dip"
+                android:layout_alignBottom="@id/message_tv_msg_item_message"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp" />
+
+            <TextView
+                android:id="@+id/message_tv_msg_item_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/message_pb_msg_progress"
+                android:background="@drawable/message_send_text_bubble"
+                android:lineSpacingExtra="4dp"
+                android:text="tethidsdsdsdsd,sdsd,测试测试测测试测试测试测试测测试测试测试测试测测试测试"
+                android:textColor="@android:color/primary_text_light"
+                android:textSize="16sp" />
+
+
+        </RelativeLayout>
+
+
+    </android.support.constraint.ConstraintLayout>
+</LinearLayout>

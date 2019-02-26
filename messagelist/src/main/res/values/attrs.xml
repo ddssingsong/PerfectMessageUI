@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RoundTextView">
+        <attr name="cornerRadius" format="dimension|reference" />
+        <attr name="backgroundColor" format="color|reference" />
+    </declare-styleable>
+
+
+    <declare-styleable name="RoundImageView">
+        <attr name="ImageRadius" format="dimension|reference" />
+    </declare-styleable>
+</resources>
