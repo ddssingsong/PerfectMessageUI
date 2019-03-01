@@ -57,6 +57,27 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         this.mItems = new ArrayList<>();
     }
 
+    /**
+     * 消息最新的在下方，新增一条消息
+     */
+    public void addToStart(MESSAGE message, boolean scrollToBottom) {
+        Wrapper<MESSAGE> element = new Wrapper<>(message);
+        mItems.add(0, element);
+        notifyItemRangeInserted(0, 1);
+        if (mLayoutManager != null && scrollToBottom) {
+            mLayoutManager.scrollToPosition(0);
+        }
+    }
+
+    public void addToEndChronologically(List<MESSAGE> messages) {
+        int oldSize = mItems.size();
+        for (int i = messages.size() - 1; i >= 0; i--) {
+            MESSAGE message = messages.get(i);
+            mItems.add(new Wrapper<>(message));
+        }
+        notifyItemRangeInserted(oldSize, mItems.size() - oldSize);
+    }
+
     @Override
     public int getItemViewType(int position) {
         Wrapper wrapper = mItems.get(position);
@@ -105,7 +126,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                 return new EventViewHolder(v, true);
             case TYPE_SEND_TXT:
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_item_text_send, parent, false);
-                return new TextViewHolder(v, false);
+                return new TextViewHolder(v, true);
             case TYPE_RECEIVE_TXT:
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_item_text_receive, parent, false);
                 return new TextViewHolder(v, false);
@@ -165,7 +186,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mItems.size();
     }
 
 

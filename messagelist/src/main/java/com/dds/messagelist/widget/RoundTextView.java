@@ -3,6 +3,7 @@ package com.dds.messagelist.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
@@ -37,7 +38,7 @@ public class RoundTextView extends AppCompatTextView {
         try {
             TypedArray typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.RoundTextView);
             mBgColor = typedArray.getColor(R.styleable.RoundTextView_backgroundColor,
-                    getResources().getColor(R.color.message_event_bg));
+                    Color.TRANSPARENT);
             mCornerRadius = typedArray.getDimensionPixelSize(R.styleable.RoundTextView_textRadius,
                     8);
             mPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
