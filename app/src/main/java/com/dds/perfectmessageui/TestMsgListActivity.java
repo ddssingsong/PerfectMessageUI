@@ -12,6 +12,7 @@ import com.dds.messagelist.message.MsgListAdapter;
 import com.dds.messagelist.model.IMessage;
 import com.dds.messagelist.model.MessageType;
 import com.dds.perfectmessageui.bean.Message;
+import com.gyf.barlibrary.ImmersionBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,10 @@ public class TestMsgListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtil.StatusBarLightMode(this);
+        ImmersionBar.with(this)
+                .statusBarColor(R.color.colorPrimary)
+                .statusBarDarkFont(true)
+                .init();
         setContentView(R.layout.activity_message);
         initView();
         initVar();
@@ -80,5 +84,11 @@ public class TestMsgListActivity extends AppCompatActivity {
             isSender = true;
         }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ImmersionBar.with(this).destroy();
     }
 }
