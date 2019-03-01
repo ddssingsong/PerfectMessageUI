@@ -56,9 +56,10 @@
                 android:id="@+id/message_pb_msg_progress"
                 android:layout_width="16dip"
                 android:layout_height="16dip"
-                android:layout_alignBottom="@id/message_tv_msg_item_message"
+                android:layout_centerVertical="true"
                 android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp" />
+                android:layout_marginStart="10dp"
+                android:progressDrawable="@drawable/message_loading_small" />
 
             <TextView
                 android:id="@+id/message_tv_msg_item_message"

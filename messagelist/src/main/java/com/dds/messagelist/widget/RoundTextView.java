@@ -38,7 +38,7 @@ public class RoundTextView extends AppCompatTextView {
             TypedArray typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.RoundTextView);
             mBgColor = typedArray.getColor(R.styleable.RoundTextView_backgroundColor,
                     getResources().getColor(R.color.message_event_bg));
-            mCornerRadius = typedArray.getDimensionPixelSize(R.styleable.RoundTextView_cornerRadius,
+            mCornerRadius = typedArray.getDimensionPixelSize(R.styleable.RoundTextView_textRadius,
                     8);
             mPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
         } catch (Exception e) {

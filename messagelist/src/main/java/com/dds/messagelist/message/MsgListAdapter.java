@@ -3,6 +3,7 @@ package com.dds.messagelist.message;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,7 @@ import java.util.List;
  * Created by dds on 2019/2/15.
  * android_shuai@163.com
  */
-public class MessageAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapter<ViewHolder> {
+public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapter<ViewHolder> {
     // Notice message
     private final int TYPE_EVENT = 0;
 
@@ -51,7 +52,7 @@ public class MessageAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private List<Wrapper> mItems;
     private Context mContext;
 
-    public MessageAdapter(Context context) {
+    public MsgListAdapter(Context context) {
         this.mContext = context;
         this.mItems = new ArrayList<>();
     }
@@ -158,6 +159,11 @@ public class MessageAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     }
 
     @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull List<Object> payloads) {
+        super.onBindViewHolder(holder, position, payloads);
+    }
+
+    @Override
     public int getItemCount() {
         return 0;
     }
@@ -189,6 +195,14 @@ public class MessageAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     }
 
 
+    //=========================================================================================
+    private LinearLayoutManager mLayoutManager;
+
+    public void setLayoutManager(LinearLayoutManager layoutManager) {
+        mLayoutManager = layoutManager;
+    }
+
+    //==========================================================================================
     // 消息点击
     public void setOnMsgClickListener(OnMsgClickListener<MESSAGE> listener) {
         mMsgClickListener = listener;

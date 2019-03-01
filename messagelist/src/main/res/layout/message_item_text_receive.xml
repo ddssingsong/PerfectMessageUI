@@ -37,7 +37,6 @@
             android:layout_toEndOf="@id/message_iv_msg_item_avatar"
             android:ems="10"
             android:text="昵称昵称昵称"
-            app:layout_constraintLeft_toRightOf=""
             app:layout_constraintStart_toEndOf="@+id/message_iv_msg_item_avatar" />
 
         <!--消息内容-->

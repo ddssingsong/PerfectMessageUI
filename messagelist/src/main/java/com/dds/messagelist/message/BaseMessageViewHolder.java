@@ -17,11 +17,11 @@ public abstract class BaseMessageViewHolder<MESSAGE extends IMessage>
     protected Context mContext;
     protected int mPosition;
     protected boolean mIsSelected;
-    protected List<MessageAdapter.Wrapper> mData;
+    protected List<MsgListAdapter.Wrapper> mData;
     private boolean mIsSender;
-    protected MessageAdapter.OnMsgLongClickListener<MESSAGE> mMsgLongClickListener;
-    protected MessageAdapter.OnMsgClickListener<MESSAGE> mMsgClickListener;
-    protected MessageAdapter.OnAvatarClickListener<MESSAGE> mAvatarClickListener;
+    protected MsgListAdapter.OnMsgLongClickListener<MESSAGE> mMsgLongClickListener;
+    protected MsgListAdapter.OnMsgClickListener<MESSAGE> mMsgClickListener;
+    protected MsgListAdapter.OnAvatarClickListener<MESSAGE> mAvatarClickListener;
 
     public BaseMessageViewHolder(View itemView, boolean isSender) {
         super(itemView);
