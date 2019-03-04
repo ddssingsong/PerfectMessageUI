@@ -1,5 +1,6 @@
-package com.dds.messagelist.message;
+package com.dds.messagelist.holder;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -38,7 +39,14 @@ public class TextViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHol
             mNameTv.setText(fromUser.getDisplayName());
         }
 
-        //  mTimeTv.setText(message.getTimeString());
+        String timeString = message.getTimeString();
+        if (!TextUtils.isEmpty(timeString)) {
+            mTimeTv.setVisibility(View.VISIBLE);
+            mTimeTv.setText(timeString);
+        } else {
+            mTimeTv.setVisibility(View.GONE);
+        }
+
         mMsgTv.setText(message.getText());
     }
 }

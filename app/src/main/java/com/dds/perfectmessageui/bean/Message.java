@@ -83,8 +83,16 @@ public class Message implements IMessage {
         return user;
     }
 
+    public static int count = 0;
+
     @Override
     public String getTimeString() {
+        //todo 测试
+        if (count > 5) {
+            count = 0;
+            return "3月2日 晚上12:32";
+        }
+        count++;
         return timeString;
     }
 

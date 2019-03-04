@@ -1,4 +1,4 @@
-package com.dds.messagelist.message;
+package com.dds.messagelist;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
@@ -9,7 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.dds.messagelist.R;
+import com.dds.messagelist.holder.BaseMessageViewHolder;
+import com.dds.messagelist.holder.EventViewHolder;
+import com.dds.messagelist.holder.TextViewHolder;
+import com.dds.messagelist.holder.ViewHolder;
 import com.dds.messagelist.model.IMessage;
 import com.dds.messagelist.model.MessageType;
 

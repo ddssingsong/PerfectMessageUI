@@ -36,9 +36,9 @@
         android:layout_marginEnd="8dp"
         android:layout_toEndOf="@id/message_iv_msg_item_avatar"
         android:ems="10"
-        android:textSize="12sp"
         android:gravity="end"
         android:text="昵称昵称昵称"
+        android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/message_iv_msg_item_avatar"
         app:layout_constraintTop_toTopOf="@id/message_iv_msg_item_avatar" />
     <!--消息内容-->
@@ -61,7 +61,7 @@
             android:layout_width="16dip"
             android:layout_height="16dip"
             android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="40dp"
             android:layout_marginEnd="10dp"
             android:progressDrawable="@drawable/message_loading_small" />
 
@@ -75,10 +75,31 @@
             android:background="@drawable/message_send_text_bubble"
             android:gravity="center_vertical"
             android:lineSpacingExtra="4dp"
-            android:text="hello"
+            android:text="hsdsdslslohsdsddsdsdsdsdsdsdsdsdsdsdslo"
             android:textColor="@android:color/primary_text_light"
             android:textSize="16sp" />
 
+        <!--发送状态-->
+        <TextView
+            android:id="@+id/message_tv_msg_item_message_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/message_tv_msg_item_message"
+            android:layout_marginEnd="6dp"
+            android:layout_toStartOf="@id/message_tv_msg_item_message"
+            android:text="发送成功"
+            android:textSize="12sp" />
+
+        <!--发送失败-->
+        <ImageView
+            android:id="@+id/message_tv_msg_item_message_error"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="6dp"
+            android:layout_toStartOf="@id/message_tv_msg_item_message"
+            android:src="@drawable/message_send_error"
+            android:visibility="invisible" />
 
     </RelativeLayout>
 

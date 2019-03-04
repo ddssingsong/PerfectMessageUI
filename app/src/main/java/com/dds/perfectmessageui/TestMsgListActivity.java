@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.dds.messagelist.MessageList;
-import com.dds.messagelist.message.MsgListAdapter;
+import com.dds.messagelist.MsgListAdapter;
 import com.dds.messagelist.model.IMessage;
 import com.dds.messagelist.model.MessageType;
 import com.dds.perfectmessageui.bean.Message;
@@ -75,11 +75,11 @@ public class TestMsgListActivity extends AppCompatActivity {
 
     public void OnClickAdd(View view) {
         if (isSender) {
-            Message message = new Message(MessageType.SEND_TEXT.value, "hello 我是发送者");
+            Message message = new Message(MessageType.SEND_TEXT.value, "hello 我是发送者,hello 我是发送者,hello 我是发送者,hello 我是发送者,hello 我是发送者");
             msgListAdapter.addToStart(message, true);
             isSender = false;
         } else {
-            Message message = new Message(MessageType.RECEIVE_TEXT.value, "hello，我是接收者");
+            Message message = new Message(MessageType.RECEIVE_TEXT.value, "hello，我是接收者,hello，我是接收者.hello，我是接收者,hello，我是接收者,hello，我是接收者");
             msgListAdapter.addToStart(message, true);
             isSender = true;
         }

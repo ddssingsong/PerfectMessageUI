@@ -1,4 +1,4 @@
-package com.dds.messagelist.message;
+package com.dds.messagelist.holder;
 
 import android.view.View;
 

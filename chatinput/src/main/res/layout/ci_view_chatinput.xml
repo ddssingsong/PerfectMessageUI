@@ -1,0 +1,60 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!--输入框-->
+    <LinearLayout
+        android:id="@+id/ci_input_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <android.support.v4.widget.Space
+            android:id="@+id/aurora_input_margin_left"
+            android:layout_width="12dp"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/aurora_et_chat_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_weight="7"
+            android:background="@drawable/ci_edit_text_bg"
+            android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
+            android:maxLines="4"
+            android:minHeight="48dp"
+            android:paddingLeft="4dp"
+            android:paddingTop="5dp"
+            android:paddingRight="4dp"
+            android:paddingBottom="5dp"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <android.support.v4.widget.Space
+            android:id="@+id/aurora_input_margin_right"
+            android:layout_width="12dp"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+    <!--菜单-->
+    <LinearLayout
+        android:id="@+id/ci_input_menu"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal" />
+
+    <!--菜单内容-->
+    <FrameLayout
+        android:id="@+id/ci_menu_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center" />
+
+
+</LinearLayout>
