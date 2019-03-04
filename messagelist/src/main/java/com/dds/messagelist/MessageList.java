@@ -39,6 +39,10 @@ public class MessageList extends RecyclerView {
         mAdapter = adapter;
         SimpleItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setSupportsChangeAnimations(false);
+        itemAnimator.setAddDuration(0);
+        itemAnimator.setChangeDuration(0);
+        itemAnimator.setMoveDuration(0);
+        itemAnimator.setRemoveDuration(0);
         setItemAnimator(itemAnimator);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
         layoutManager.setStackFromEnd(true);

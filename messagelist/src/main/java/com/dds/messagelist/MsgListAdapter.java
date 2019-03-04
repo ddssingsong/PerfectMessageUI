@@ -81,6 +81,16 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         notifyItemRangeInserted(oldSize, mItems.size() - oldSize);
     }
 
+    public boolean remove(int position) {
+        if (position >= mItems.size() || position < 0) {
+            return false;
+        }
+        notifyItemRemoved(position);
+        mItems.remove(position);
+        notifyItemRangeChanged(position, mItems.size() - position - 1);
+        return true;
+    }
+
     @Override
     public int getItemViewType(int position) {
         Wrapper wrapper = mItems.get(position);

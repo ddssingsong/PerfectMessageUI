@@ -31,9 +31,24 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="OnClickAdd"
-        android:text="增加一条消息" />
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="OnClickAdd"
+            android:text="增加" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="OnClickDelete"
+            android:text="删除" />
+    </LinearLayout>
+
 </LinearLayout>

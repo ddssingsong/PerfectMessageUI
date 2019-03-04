@@ -86,9 +86,15 @@ public class TestMsgListActivity extends AppCompatActivity {
 
     }
 
+    public void OnClickDelete(View view) {
+        boolean remove = msgListAdapter.remove(0);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ImmersionBar.with(this).destroy();
     }
+
+
 }
