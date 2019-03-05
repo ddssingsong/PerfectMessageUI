@@ -2,6 +2,7 @@ package com.dds.chatinput;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 /**
@@ -10,6 +11,10 @@ import android.widget.LinearLayout;
  * android_shuai@163.com
  */
 public class ChatInputView extends LinearLayout {
+
+    private LinearLayout mChatInputContainer; // 输入框
+    private LinearLayout mMenuItem;           // 菜单
+    private FrameLayout mMenuContainer;       // 菜单界面
 
 
     public ChatInputView(Context context) {
@@ -28,7 +33,10 @@ public class ChatInputView extends LinearLayout {
     }
 
     private void init(Context context) {
-
+        inflate(context, R.layout.ci_view_chatinput, this);
+        mChatInputContainer = findViewById(R.id.ci_input_container);
+        mMenuItem = findViewById(R.id.ci_input_menu);
+        mMenuContainer = findViewById(R.id.ci_menu_container);
     }
 
     private void initAttrs(Context context, AttributeSet attrs) {

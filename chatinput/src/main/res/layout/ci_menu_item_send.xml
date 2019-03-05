@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:tag="send">
+
+    <FrameLayout
+        android:id="@+id/ci_menu_item_send"
+        android:layout_width="48dp"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/ci_menu_item_ib_send"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:background="@drawable/ci_menu_item_send"
+            android:scaleType="fitCenter" />
+    </FrameLayout>
+
+</LinearLayout>

@@ -48,13 +48,11 @@
         android:layout_height="48dp"
         android:baselineAligned="false"
         android:orientation="horizontal" />
-
     <!--菜单内容-->
     <FrameLayout
         android:id="@+id/ci_menu_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center" />
-
 
 </LinearLayout>

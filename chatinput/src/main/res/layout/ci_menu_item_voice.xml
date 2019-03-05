@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ci_menu_item_voice_container"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:tag="voice">
+
+    <FrameLayout
+        android:id="@+id/ci_menu_item_voice"
+        android:layout_width="48dp"
+        android:layout_height="48dp">
+
+        <ImageButton
+            android:id="@+id/ci_menu_item_ib_voice"
+            style="@style/ChatInputIcon"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:clickable="false"
+            android:src="@drawable/ci_menu_item_mic" />
+    </FrameLayout>
+
+
+</LinearLayout>
