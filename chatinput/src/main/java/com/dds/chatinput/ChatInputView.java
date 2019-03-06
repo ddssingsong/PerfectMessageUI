@@ -42,4 +42,18 @@ public class ChatInputView extends LinearLayout {
     private void initAttrs(Context context, AttributeSet attrs) {
     }
 
+
+    public LinearLayout getChatInputContainer() {
+        return this.mChatInputContainer;
+    }
+
+    public LinearLayout getMenuItem() {
+        return this.mMenuItem;
+    }
+
+    public FrameLayout getMenuContainer() {
+        return this.mMenuContainer;
+    }
+
+
 }
