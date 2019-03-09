@@ -45,6 +45,7 @@ public class MenuManager {
         mMenuContainer = chatInputView.getMenuContainer();
         mContext = chatInputView.getContext();
         initCollection();
+        initDefaultMenu();
     }
 
     private void initCollection() {
@@ -125,6 +126,37 @@ public class MenuManager {
                 mMenuEventListener.onMenuFeatureVisibilityChanged(GONE, (String) lastMenuFeature.getTag(), (MenuFeature) lastMenuFeature);
         }
 
+    }
+
+   // ==========================================================================================
+    private void initDefaultMenu() {
+        addBottomByTag(Menu.TAG_VOICE,
+                Menu.TAG_GALLERY,
+                Menu.TAG_CAMERA,
+                Menu.TAG_EMOJI,
+                Menu.TAG_SEND);
+    }
+
+    private void addBottomByTag(String... tags) {
+        if (tags == null || tags.length == 0) {
+            mChatInputView.setShowBottomMenu(false);
+            return;
+        }
+        mChatInputView.setShowBottomMenu(true);
+        addViews(mMenuItem, -1, tags);
+    }
+
+    private void addViews(LinearLayout parent, int index, String... tags) {
+        if (parent == null || tags == null)
+            return;
+        for (String tag : tags) {
+            View child = mMenuItemCollection.get(tag);
+            if (child == null) {
+                Log.e(TAG, "Can't find view by tag " + tag + ".");
+                continue;
+            }
+            parent.addView(child, index);
+        }
     }
 
     // ==========================================================================================

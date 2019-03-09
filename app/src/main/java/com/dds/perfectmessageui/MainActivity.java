@@ -28,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void test1(View view) {
+    public void TestInputView(View view) {
+        TestInputViewActivity.openActivity(this);
     }
 
     public void test2(View view) {
