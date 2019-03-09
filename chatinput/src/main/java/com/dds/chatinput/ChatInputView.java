@@ -1,9 +1,15 @@
 package com.dds.chatinput;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+
+import com.dds.chatinput.menu.MenuManager;
+import com.dds.chatinput.menu.utils.EmoticonsKeyboardUtils;
 
 /**
  * 聊天底部菜单和输入框
@@ -15,6 +21,9 @@ public class ChatInputView extends LinearLayout {
     private LinearLayout mChatInputContainer; // 输入框
     private LinearLayout mMenuItem;           // 菜单
     private FrameLayout mMenuContainer;       // 菜单界面
+    private EditText mChatInput;
+
+    private MenuManager mMenuManager;
 
 
     public ChatInputView(Context context) {
@@ -34,15 +43,81 @@ public class ChatInputView extends LinearLayout {
 
     private void init(Context context) {
         inflate(context, R.layout.ci_view_chatinput, this);
+
+
         mChatInputContainer = findViewById(R.id.ci_input_container);
         mMenuItem = findViewById(R.id.ci_input_menu);
         mMenuContainer = findViewById(R.id.ci_menu_container);
+        mChatInput = findViewById(R.id.aurora_et_chat_input);
+        mMenuManager = new MenuManager(this);
+
+
     }
 
     private void initAttrs(Context context, AttributeSet attrs) {
+        init(context);
+
+
     }
 
 
+    //==============================================================================================
+
+    private int mWidth;
+    private int mHeight;
+    private Rect mRect = new Rect();
+    private boolean showBottomMenu = true;
+
+    public boolean isKeyboardVisible() {
+        return (getDistanceFromInputToBottom() > 300 && mMenuContainer.getVisibility() == GONE)
+                || (getDistanceFromInputToBottom() > (mMenuContainer.getHeight() + 300)
+                && mMenuContainer.getVisibility() == VISIBLE);
+    }
+
+    public int getDistanceFromInputToBottom() {
+        if (isShowBottomMenu()) {
+            mMenuItem.getGlobalVisibleRect(mRect);
+        } else {
+            mChatInputContainer.getGlobalVisibleRect(mRect);
+        }
+        return mHeight - mRect.bottom;
+    }
+
+
+    public void setShowBottomMenu(Boolean showBottomMenu) {
+        this.showBottomMenu = showBottomMenu;
+        mMenuItem.setVisibility(showBottomMenu ? View.VISIBLE : View.GONE);
+    }
+
+    public boolean isShowBottomMenu() {
+        return showBottomMenu;
+    }
+
+    // 是否显示菜单内容
+    private boolean mPendingShowMenu;
+
+    public void setPendingShowMenu(boolean flag) {
+        this.mPendingShowMenu = flag;
+    }
+
+    //==============================================================================================
+    public void dismissMenuLayout() {
+        mMenuManager.hideCustomMenu();
+        mMenuContainer.setVisibility(GONE);
+    }
+
+    public void showMenuLayout() {
+        EmoticonsKeyboardUtils.closeSoftKeyboard(mChatInput);
+        mMenuContainer.setVisibility(VISIBLE);
+    }
+
+    public void hideDefaultMenuLayout() {
+//        mRecordVoiceRl.setVisibility(GONE);
+//        mSelectPhotoView.setVisibility(GONE);
+//        mCameraFl.setVisibility(GONE);
+//        mEmojiRl.setVisibility(GONE);
+    }
+    //==============================================================================================
     public LinearLayout getChatInputContainer() {
         return this.mChatInputContainer;
     }
@@ -55,5 +130,8 @@ public class ChatInputView extends LinearLayout {
         return this.mMenuContainer;
     }
 
+    public EditText getInputView() {
+        return mChatInput;
+    }
 
 }

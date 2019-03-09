@@ -35,18 +35,18 @@ public class MenuCollection extends HashMap<String, View> {
             return;
         }
         menu.setTag(menuTag);
-        if (mMenuCollectionChangedListener != null) {
-            mMenuCollectionChangedListener.addMenu(menuTag, menu);
+        if (listener != null) {
+            listener.addMenu(menuTag, menu);
         }
 
         this.put(menuTag, menu);
 
     }
 
-    private MenuCollectionChangedListener mMenuCollectionChangedListener;
+    private MenuCollectionChangedListener listener;
 
-    public void setMenuCollectionChangedListener(MenuCollectionChangedListener menuCollectionChangedListener) {
-        this.mMenuCollectionChangedListener = menuCollectionChangedListener;
+    public void setMenuCollectionChangedListener(MenuCollectionChangedListener listener) {
+        this.listener = listener;
     }
 
     public interface MenuCollectionChangedListener {

@@ -16,7 +16,7 @@
             android:layout_width="12dp"
             android:layout_height="match_parent" />
 
-        <TextView
+        <EditText
             android:id="@+id/aurora_et_chat_input"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
