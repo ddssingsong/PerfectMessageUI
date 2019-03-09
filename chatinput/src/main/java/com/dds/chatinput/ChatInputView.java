@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.dds.chatinput.menu.Menu;
 import com.dds.chatinput.menu.MenuManager;
 import com.dds.chatinput.menu.utils.EmoticonsKeyboardUtils;
 
@@ -43,21 +44,21 @@ public class ChatInputView extends LinearLayout {
 
     private void init(Context context) {
         inflate(context, R.layout.ci_view_chatinput, this);
-
-
         mChatInputContainer = findViewById(R.id.ci_input_container);
         mMenuItem = findViewById(R.id.ci_input_menu);
         mMenuContainer = findViewById(R.id.ci_menu_container);
         mChatInput = findViewById(R.id.aurora_et_chat_input);
         mMenuManager = new MenuManager(this);
 
-
+        mMenuManager.setMenu(Menu.newBuilder().
+                customize(true).
+                setRight(Menu.TAG_SEND).
+                setBottom(Menu.TAG_VOICE, Menu.TAG_GALLERY, Menu.TAG_CAMERA, Menu.TAG_EMOJI).
+                build());
     }
 
     private void initAttrs(Context context, AttributeSet attrs) {
         init(context);
-
-
     }
 
 
@@ -117,6 +118,7 @@ public class ChatInputView extends LinearLayout {
 //        mCameraFl.setVisibility(GONE);
 //        mEmojiRl.setVisibility(GONE);
     }
+
     //==============================================================================================
     public LinearLayout getChatInputContainer() {
         return this.mChatInputContainer;

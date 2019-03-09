@@ -161,6 +161,15 @@ public class MenuManager {
 
     // ==========================================================================================
 
+    public void setMenu(Menu menu) {
+        if (menu.isCustomize()) {
+            mMenuItem.removeAllViews();
+            addViews(mChatInputContainer, 1, menu.getLeft());
+            addViews(mChatInputContainer, mChatInputContainer.getChildCount() - 1, menu.getRight());
+            addBottomByTag(menu.getBottom());
+        }
+    }
+
     public void setCustomMenuClickListener(MenuEventListener listener) {
         this.mMenuEventListener = listener;
     }
