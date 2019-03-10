@@ -82,7 +82,7 @@ public class MenuManager {
 
 
     private void showMenuFeatureByTag(String tag) {
-        View menuFeature = mMenuItemCollection.get(tag);
+        View menuFeature = mMenuFeatureCollection.get(tag);
         if (menuFeature == null) {
             Log.i(TAG, "Can't find MenuFeature to show by tag:" + tag);
             return;
@@ -161,6 +161,13 @@ public class MenuManager {
 
     // ==========================================================================================
 
+    // 添加定制菜单
+    public void addCustomMenu(String tag, int menuItemResource, int menuFeatureResource) {
+        mMenuItemCollection.addCustomMenuItem(tag, menuItemResource);
+        mMenuFeatureCollection.addMenuFeature(tag, menuFeatureResource);
+    }
+
+    // 设置菜单位置
     public void setMenu(Menu menu) {
         if (menu.isCustomize()) {
             mMenuItem.removeAllViews();
