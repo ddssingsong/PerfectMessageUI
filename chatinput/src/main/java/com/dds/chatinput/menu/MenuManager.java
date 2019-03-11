@@ -7,6 +7,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.dds.chatinput.ChatInputView;
+import com.dds.chatinput.R;
 import com.dds.chatinput.menu.collection.MenuCollection;
 import com.dds.chatinput.menu.collection.MenuFeatureCollection;
 import com.dds.chatinput.menu.collection.MenuItemCollection;
@@ -45,8 +46,9 @@ public class MenuManager {
         mMenuContainer = chatInputView.getMenuContainer();
         mContext = chatInputView.getContext();
         initCollection();
-        initDefaultMenu();
+
     }
+
 
     private void initCollection() {
         mMenuItemCollection = new MenuItemCollection(mContext);
@@ -59,6 +61,7 @@ public class MenuManager {
                     public void onClick(View v) {
                         mChatInputView.getInputView().clearFocus();
                         String tag = (String) v.getTag();
+                        Log.d(TAG, "菜单点击:" + tag);
                         if (mMenuEventListener != null && mMenuEventListener.onMenuItemClick(tag, (MenuItem) v)) {
                             showMenuFeatureByTag(tag);
                         }
@@ -68,6 +71,13 @@ public class MenuManager {
                 });
             }
         });
+        mMenuItemCollection.addCustomMenuItem(Menu.TAG_VOICE, R.layout.ci_menu_item_voice);
+        mMenuItemCollection.addCustomMenuItem(Menu.TAG_GALLERY, R.layout.ci_menu_item_photo);
+        mMenuItemCollection.addCustomMenuItem(Menu.TAG_CAMERA, R.layout.ci_menu_item_camera);
+        mMenuItemCollection.addCustomMenuItem(Menu.TAG_EMOJI, R.layout.ci_menu_item_emoji);
+        mMenuItemCollection.addCustomMenuItem(Menu.TAG_SEND, R.layout.ci_menu_item_send);
+
+
         mMenuFeatureCollection = new MenuFeatureCollection(mContext);
         mMenuFeatureCollection.setMenuCollectionChangedListener(new MenuCollection.MenuCollectionChangedListener() {
             @Override
@@ -76,7 +86,10 @@ public class MenuManager {
                 mMenuContainer.addView(menu);
             }
         });
-
+        mMenuFeatureCollection.addMenuFeature(Menu.TAG_VOICE, R.layout.ci_menu_item_voice_feature);
+        mMenuFeatureCollection.addMenuFeature(Menu.TAG_GALLERY, R.layout.ci_menu_item_photo_feature);
+        mMenuFeatureCollection.addMenuFeature(Menu.TAG_CAMERA, R.layout.ci_menu_item_camera_feature);
+        mMenuFeatureCollection.addMenuFeature(Menu.TAG_EMOJI, R.layout.ci_menu_item_emoji_feature);
 
     }
 
@@ -128,13 +141,15 @@ public class MenuManager {
 
     }
 
-   // ==========================================================================================
-    private void initDefaultMenu() {
-        addBottomByTag(Menu.TAG_VOICE,
-                Menu.TAG_GALLERY,
-                Menu.TAG_CAMERA,
-                Menu.TAG_EMOJI,
-                Menu.TAG_SEND);
+    // ==========================================================================================
+    // 设置菜单位置
+    public void setMenu(Menu menu) {
+        if (menu.isCustomize()) {
+            mMenuItem.removeAllViews();
+            addViews(mChatInputContainer, 1, menu.getLeft());
+            addViews(mChatInputContainer, mChatInputContainer.getChildCount() - 1, menu.getRight());
+            addBottomByTag(menu.getBottom());
+        }
     }
 
     private void addBottomByTag(String... tags) {
@@ -147,6 +162,7 @@ public class MenuManager {
     }
 
     private void addViews(LinearLayout parent, int index, String... tags) {
+        Log.d(TAG, "addViews............");
         if (parent == null || tags == null)
             return;
         for (String tag : tags) {
@@ -155,27 +171,14 @@ public class MenuManager {
                 Log.e(TAG, "Can't find view by tag " + tag + ".");
                 continue;
             }
+            child.setTag(tag);
             parent.addView(child, index);
         }
     }
 
+
     // ==========================================================================================
 
-    // 添加定制菜单
-    public void addCustomMenu(String tag, int menuItemResource, int menuFeatureResource) {
-        mMenuItemCollection.addCustomMenuItem(tag, menuItemResource);
-        mMenuFeatureCollection.addMenuFeature(tag, menuFeatureResource);
-    }
-
-    // 设置菜单位置
-    public void setMenu(Menu menu) {
-        if (menu.isCustomize()) {
-            mMenuItem.removeAllViews();
-            addViews(mChatInputContainer, 1, menu.getLeft());
-            addViews(mChatInputContainer, mChatInputContainer.getChildCount() - 1, menu.getRight());
-            addBottomByTag(menu.getBottom());
-        }
-    }
 
     public void setCustomMenuClickListener(MenuEventListener listener) {
         this.mMenuEventListener = listener;

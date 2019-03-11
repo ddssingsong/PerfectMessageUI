@@ -31,6 +31,10 @@ public class MenuFeatureCollection extends MenuCollection {
 
         if (menuFeature instanceof MenuFeature) {
             menuFeature.setVisibility(View.GONE);
+            if (this.containsKey(tag)) {
+                Log.e(TAG, "Collection custom menu failed,Tag " + tag + " has been used already！");
+                return;
+            }
             addMenu(tag, menuFeature);
         } else {
             Log.e(TAG, "Collection menu feature failed exception!");

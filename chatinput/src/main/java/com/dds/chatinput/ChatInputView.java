@@ -9,8 +9,11 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.dds.chatinput.menu.Menu;
+import com.dds.chatinput.menu.MenuEventListener;
 import com.dds.chatinput.menu.MenuManager;
 import com.dds.chatinput.menu.utils.EmoticonsKeyboardUtils;
+import com.dds.chatinput.menu.view.MenuFeature;
+import com.dds.chatinput.menu.view.MenuItem;
 
 /**
  * 聊天底部菜单和输入框
@@ -55,6 +58,19 @@ public class ChatInputView extends LinearLayout {
                 setRight(Menu.TAG_SEND).
                 setBottom(Menu.TAG_VOICE, Menu.TAG_GALLERY, Menu.TAG_CAMERA, Menu.TAG_EMOJI).
                 build());
+
+        mMenuManager.setCustomMenuClickListener(new MenuEventListener() {
+            @Override
+            public boolean onMenuItemClick(String tag, MenuItem menuItem) {
+
+                return true;
+            }
+
+            @Override
+            public void onMenuFeatureVisibilityChanged(int visibility, String tag, MenuFeature menuFeature) {
+
+            }
+        });
     }
 
     private void initAttrs(Context context, AttributeSet attrs) {
@@ -113,10 +129,12 @@ public class ChatInputView extends LinearLayout {
     }
 
     public void hideDefaultMenuLayout() {
-//        mRecordVoiceRl.setVisibility(GONE);
-//        mSelectPhotoView.setVisibility(GONE);
-//        mCameraFl.setVisibility(GONE);
-//        mEmojiRl.setVisibility(GONE);
+        int count = mMenuContainer.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View view = mMenuContainer.getChildAt(i);
+            view.setVisibility(View.GONE);
+        }
+        invalidate();
     }
 
     //==============================================================================================

@@ -30,10 +30,6 @@ public class MenuCollection extends HashMap<String, View> {
             return;
         }
 
-        if (containsKey(menuTag)) {
-            Log.e(TAG, "Collection custom menu failed,Tag " + menuTag + " has been used already！");
-            return;
-        }
         menu.setTag(menuTag);
         if (listener != null) {
             listener.addMenu(menuTag, menu);
