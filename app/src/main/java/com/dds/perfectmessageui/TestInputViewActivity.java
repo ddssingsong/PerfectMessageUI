@@ -62,7 +62,7 @@ public class TestInputViewActivity extends AppCompatActivity {
     private void initData() {
         List<IMessage> list = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            Message message = new Message(MessageType.SEND_TEXT.value, "hello");
+            Message message = new Message(MessageType.SEND_TEXT.value, "hello" + i);
             list.add(message);
         }
 

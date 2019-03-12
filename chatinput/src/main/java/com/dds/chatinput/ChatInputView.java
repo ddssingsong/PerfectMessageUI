@@ -1,9 +1,16 @@
 package com.dds.chatinput;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -12,6 +19,7 @@ import com.dds.chatinput.menu.Menu;
 import com.dds.chatinput.menu.MenuEventListener;
 import com.dds.chatinput.menu.MenuManager;
 import com.dds.chatinput.menu.utils.EmoticonsKeyboardUtils;
+import com.dds.chatinput.menu.utils.SimpleCommonUtils;
 import com.dds.chatinput.menu.view.MenuFeature;
 import com.dds.chatinput.menu.view.MenuItem;
 
@@ -20,7 +28,9 @@ import com.dds.chatinput.menu.view.MenuItem;
  * Created by dds on 2019/3/4.
  * android_shuai@163.com
  */
-public class ChatInputView extends LinearLayout {
+public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPreDrawListener {
+
+    private static final String TAG = SimpleCommonUtils.formatTag(ChatInputView.class.getSimpleName());
 
     private LinearLayout mChatInputContainer; // 输入框
     private LinearLayout mMenuItem;           // 菜单
@@ -28,6 +38,8 @@ public class ChatInputView extends LinearLayout {
     private EditText mChatInput;
 
     private MenuManager mMenuManager;
+    private InputMethodManager mImm;
+    private Window mWindow;
 
 
     public ChatInputView(Context context) {
@@ -71,13 +83,55 @@ public class ChatInputView extends LinearLayout {
 
             }
         });
+
+
+        mImm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        mWindow = ((Activity) context).getWindow();
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        mWidth = dm.widthPixels;
+        mHeight = dm.heightPixels;
+
+        // 添加软键盘弹出的监听
+        getViewTreeObserver().addOnPreDrawListener(this);
     }
 
     private void initAttrs(Context context, AttributeSet attrs) {
         init(context);
     }
-
-
+    @Override
+    public void onWindowFocusChanged(boolean hasWindowFocus) {
+        super.onWindowFocusChanged(hasWindowFocus);
+        if (hasWindowFocus && mHeight <= 0) {
+            this.getRootView().getGlobalVisibleRect(mRect);
+            mHeight = mRect.bottom;
+            Log.d(TAG, "Window focus changed, height: " + mHeight);
+        }
+    }
+    @Override
+    public boolean onPreDraw() {
+        if (mPendingShowMenu) {
+            if (isKeyboardVisible()) {
+                ViewGroup.LayoutParams params = mMenuContainer.getLayoutParams();
+                int distance = getDistanceFromInputToBottom();
+                Log.d(TAG, "Distance from bottom: " + distance);
+                if (distance < mHeight / 2 && distance > 300 && distance != params.height) {
+                    params.height = distance;
+                    mMenuContainer.setLayoutParams(params);
+                }
+                return false;
+            } else {
+                showMenuLayout();
+                mPendingShowMenu = false;
+                return false;
+            }
+        } else {
+            if (mMenuContainer.getVisibility() == VISIBLE && isKeyboardVisible()) {
+                dismissMenuLayout();
+                return false;
+            }
+        }
+        return true;
+    }
     //==============================================================================================
 
     private int mWidth;
@@ -153,5 +207,6 @@ public class ChatInputView extends LinearLayout {
     public EditText getInputView() {
         return mChatInput;
     }
+
 
 }
