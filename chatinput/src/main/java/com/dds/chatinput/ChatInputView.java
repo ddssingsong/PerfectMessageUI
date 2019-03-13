@@ -17,8 +17,6 @@ import com.dds.chatinput.menu.MenuEventListener;
 import com.dds.chatinput.menu.MenuManager;
 import com.dds.chatinput.menu.utils.EmoticonsKeyboardUtils;
 import com.dds.chatinput.menu.utils.SimpleCommonUtils;
-import com.dds.chatinput.menu.view.MenuFeature;
-import com.dds.chatinput.menu.view.MenuItem;
 import com.dds.chatinput.sp.SpUtils;
 
 /**
@@ -76,18 +74,6 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
                 setBottom(Menu.TAG_VOICE, Menu.TAG_GALLERY, Menu.TAG_CAMERA, Menu.TAG_EMOJI).
                 build());
 
-        mMenuManager.setCustomMenuClickListener(new MenuEventListener() {
-            @Override
-            public boolean onMenuItemClick(String tag, MenuItem menuItem) {
-
-                return true;
-            }
-
-            @Override
-            public void onMenuFeatureVisibilityChanged(int visibility, String tag, MenuFeature menuFeature) {
-
-            }
-        });
         DisplayMetrics dm = getResources().getDisplayMetrics();
         mScreenHeight = dm.heightPixels;
         Log.d(TAG, "mScreenHeight:" + mScreenHeight);
@@ -176,6 +162,12 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
     public void setPendingShowMenu(boolean flag) {
         this.mPendingShowMenu = flag;
     }
+
+
+    public void setCustomMenuClickListener(MenuEventListener listener) {
+        mMenuManager.setCustomMenuClickListener(listener);
+    }
+
 
     //==============================================================================================
     public void dismissMenuLayout() {

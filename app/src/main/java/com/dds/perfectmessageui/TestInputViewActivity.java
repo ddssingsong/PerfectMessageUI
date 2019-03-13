@@ -7,6 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.dds.chatinput.ChatInputView;
+import com.dds.chatinput.menu.Menu;
+import com.dds.chatinput.menu.MenuEventListener;
+import com.dds.chatinput.menu.view.MenuFeature;
+import com.dds.chatinput.menu.view.MenuItem;
 import com.dds.messagelist.MessageList;
 import com.dds.messagelist.MsgListAdapter;
 import com.dds.messagelist.model.IMessage;
@@ -21,6 +26,9 @@ public class TestInputViewActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private MessageList messageList;
     private MsgListAdapter<IMessage> msgListAdapter;
+
+
+    private ChatInputView chatInputView;
 
     public static void openActivity(Activity activity) {
         Intent intent = new Intent(activity, TestInputViewActivity.class);
@@ -50,6 +58,7 @@ public class TestInputViewActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
         messageList = findViewById(R.id.msg_list);
+        chatInputView = findViewById(R.id.ci_chat_input_input);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +66,29 @@ public class TestInputViewActivity extends AppCompatActivity {
                 TestInputViewActivity.this.finish();
             }
         });
+
+        chatInputView.setCustomMenuClickListener(new MenuEventListener() {
+            @Override
+            public boolean onMenuItemClick(String tag, MenuItem menuItem) {
+                if (tag.equals(Menu.TAG_SEND)) {
+                    handleSendMsg(chatInputView.getInputView().getText().toString());
+
+                }
+
+                return true;
+            }
+
+            @Override
+            public void onMenuFeatureVisibilityChanged(int visibility, String tag, MenuFeature menuFeature) {
+
+            }
+        });
+    }
+
+
+    private void handleSendMsg(String msg) {
+        Message message = new Message(MessageType.SEND_TEXT.value, msg);
+        msgListAdapter.addToStart(message, true);
     }
 
     private void initData() {

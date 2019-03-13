@@ -61,7 +61,6 @@ public class MenuManager {
                     public void onClick(View v) {
                         mChatInputView.getInputView().clearFocus();
                         String tag = (String) v.getTag();
-                        Log.d(TAG, "菜单点击:" + tag);
                         if (mMenuEventListener != null && mMenuEventListener.onMenuItemClick(tag, (MenuItem) v)) {
                             showMenuFeatureByTag(tag);
                         }
@@ -177,7 +176,6 @@ public class MenuManager {
 
 
     // ==========================================================================================
-
 
     public void setCustomMenuClickListener(MenuEventListener listener) {
         this.mMenuEventListener = listener;
