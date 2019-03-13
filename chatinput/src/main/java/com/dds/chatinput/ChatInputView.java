@@ -40,6 +40,7 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
     private MenuManager mMenuManager;
     private InputMethodManager mImm;
     private Window mWindow;
+    private int mScreenHeight;
 
 
     public ChatInputView(Context context) {
@@ -89,7 +90,8 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
         mWindow = ((Activity) context).getWindow();
         DisplayMetrics dm = getResources().getDisplayMetrics();
         mWidth = dm.widthPixels;
-        mHeight = dm.heightPixels;
+        mScreenHeight = dm.heightPixels;
+        Log.d(TAG, "mScreenHeight:" + mScreenHeight);
 
         // 添加软键盘弹出的监听
         getViewTreeObserver().addOnPreDrawListener(this);
@@ -98,15 +100,21 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
     private void initAttrs(Context context, AttributeSet attrs) {
         init(context);
     }
+
     @Override
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         super.onWindowFocusChanged(hasWindowFocus);
+        this.getRootView().getGlobalVisibleRect(mRect);
+        int height = mRect.bottom;
+        Log.d(TAG, "mHeight:" + height);
+        Log.d(TAG, "onWindowFocusChanged-hasWindowFocus:" + hasWindowFocus);
         if (hasWindowFocus && mHeight <= 0) {
             this.getRootView().getGlobalVisibleRect(mRect);
             mHeight = mRect.bottom;
             Log.d(TAG, "Window focus changed, height: " + mHeight);
         }
     }
+
     @Override
     public boolean onPreDraw() {
         if (mPendingShowMenu) {
@@ -151,7 +159,9 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
         } else {
             mChatInputContainer.getGlobalVisibleRect(mRect);
         }
-        return mHeight - mRect.bottom;
+        int result = mHeight - (mRect.bottom);
+        Log.d(TAG, "屏幕底部-菜单项底部=" + result);
+        return result;
     }
 
 

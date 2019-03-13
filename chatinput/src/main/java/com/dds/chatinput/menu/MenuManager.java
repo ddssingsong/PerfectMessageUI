@@ -162,7 +162,6 @@ public class MenuManager {
     }
 
     private void addViews(LinearLayout parent, int index, String... tags) {
-        Log.d(TAG, "addViews............");
         if (parent == null || tags == null)
             return;
         for (String tag : tags) {
