@@ -1,6 +1,5 @@
 package com.dds.chatinput;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
@@ -9,8 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -22,6 +19,7 @@ import com.dds.chatinput.menu.utils.EmoticonsKeyboardUtils;
 import com.dds.chatinput.menu.utils.SimpleCommonUtils;
 import com.dds.chatinput.menu.view.MenuFeature;
 import com.dds.chatinput.menu.view.MenuItem;
+import com.dds.chatinput.sp.SpUtils;
 
 /**
  * 聊天底部菜单和输入框
@@ -38,8 +36,6 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
     private EditText mChatInput;
 
     private MenuManager mMenuManager;
-    private InputMethodManager mImm;
-    private Window mWindow;
     private int mScreenHeight;
 
 
@@ -64,6 +60,14 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
         mMenuItem = findViewById(R.id.ci_input_menu);
         mMenuContainer = findViewById(R.id.ci_menu_container);
         mChatInput = findViewById(R.id.aurora_et_chat_input);
+
+        // 设置菜单界面初始显示高度
+        ViewGroup.LayoutParams params = mMenuContainer.getLayoutParams();
+        params.height = SpUtils.getSoftHeight(context);
+        mMenuContainer.setLayoutParams(params);
+        mMenuContainer.setVisibility(View.GONE);
+
+
         mMenuManager = new MenuManager(this);
 
         mMenuManager.setMenu(Menu.newBuilder().
@@ -84,12 +88,7 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
 
             }
         });
-
-
-        mImm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        mWindow = ((Activity) context).getWindow();
         DisplayMetrics dm = getResources().getDisplayMetrics();
-        mWidth = dm.widthPixels;
         mScreenHeight = dm.heightPixels;
         Log.d(TAG, "mScreenHeight:" + mScreenHeight);
 
@@ -105,9 +104,6 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         super.onWindowFocusChanged(hasWindowFocus);
         this.getRootView().getGlobalVisibleRect(mRect);
-        int height = mRect.bottom;
-        Log.d(TAG, "mHeight:" + height);
-        Log.d(TAG, "onWindowFocusChanged-hasWindowFocus:" + hasWindowFocus);
         if (hasWindowFocus && mHeight <= 0) {
             this.getRootView().getGlobalVisibleRect(mRect);
             mHeight = mRect.bottom;
@@ -125,6 +121,7 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
                 if (distance < mHeight / 2 && distance > 300 && distance != params.height) {
                     params.height = distance;
                     mMenuContainer.setLayoutParams(params);
+                    SpUtils.setSoftHeight(getContext(), distance);
                 }
                 return false;
             } else {
@@ -142,7 +139,6 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
     }
     //==============================================================================================
 
-    private int mWidth;
     private int mHeight;
     private Rect mRect = new Rect();
     private boolean showBottomMenu = true;
