@@ -55,26 +55,37 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private List<Wrapper> mItems;
     private Context mContext;
 
-    public MsgListAdapter(Context context) {
+    private RecyclerView mRecyclerView;
+
+    public MsgListAdapter(Context context, RecyclerView recyclerView) {
         this.mContext = context;
         this.mItems = new ArrayList<>();
+        mRecyclerView = recyclerView;
     }
 
-    /**
-     * 消息最新的在下方，新增一条消息
-     */
-    public void addToStart(MESSAGE message, boolean scrollToBottom) {
+    // 消息最新的在下方，新增一条消息
+    public void addToEnd(MESSAGE message, boolean scrollToBottom) {
+        final int oldSize = mItems.size();
         Wrapper<MESSAGE> element = new Wrapper<>(message);
-        mItems.add(0, element);
-        notifyItemRangeInserted(0, 1);
+        mItems.add(oldSize, element);
+        notifyItemRangeInserted(oldSize, 1);
         if (mLayoutManager != null && scrollToBottom) {
-            mLayoutManager.scrollToPosition(0);
+            mRecyclerView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mRecyclerView.requestLayout();
+                    mLayoutManager.smoothScrollToPosition(mRecyclerView, null, oldSize + 1);
+                }
+            }, 100);
+
         }
     }
 
-    public void addToEndChronologically(List<MESSAGE> messages) {
+    // 第一次进入插入消息，或者在结尾插入多条消息
+    public void addToStartChronologically(List<MESSAGE> messages) {
         int oldSize = mItems.size();
-        for (int i = messages.size() - 1; i >= 0; i--) {
+        int size = messages.size();
+        for (int i = 0; i < size; i++) {
             MESSAGE message = messages.get(i);
             mItems.add(new Wrapper<>(message));
         }

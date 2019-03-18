@@ -12,8 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:targetApi="n">
-        <activity android:name=".TestInputViewActivity"></activity>
+        tools:targetApi="o">
+        <activity
+            android:name=".TestInputViewActivity"
+            android:windowSoftInputMode="adjustUnspecified" />
         <!-- 适配全面屏 -->
         <meta-data
             android:name="android.max_aspect"

@@ -18,6 +18,7 @@
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:background="@drawable/ci_menu_item_send"
+            android:clickable="false"
             android:scaleType="fitCenter" />
     </FrameLayout>
 

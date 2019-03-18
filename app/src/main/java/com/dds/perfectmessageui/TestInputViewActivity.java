@@ -8,10 +8,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.dds.chatinput.ChatInputView;
-import com.dds.chatinput.menu.Menu;
+import com.dds.chatinput.listener.OnMenuClickListener;
 import com.dds.chatinput.menu.MenuEventListener;
 import com.dds.chatinput.menu.view.MenuFeature;
 import com.dds.chatinput.menu.view.MenuItem;
+import com.dds.chatinput.model.FileItem;
 import com.dds.messagelist.MessageList;
 import com.dds.messagelist.MsgListAdapter;
 import com.dds.messagelist.model.IMessage;
@@ -22,7 +23,7 @@ import com.gyf.barlibrary.ImmersionBar;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestInputViewActivity extends AppCompatActivity {
+public class TestInputViewActivity extends AppCompatActivity implements OnMenuClickListener {
     private Toolbar toolbar;
     private MessageList messageList;
     private MsgListAdapter<IMessage> msgListAdapter;
@@ -49,7 +50,7 @@ public class TestInputViewActivity extends AppCompatActivity {
     }
 
     private void initVar() {
-        msgListAdapter = new MsgListAdapter<>(this);
+        msgListAdapter = new MsgListAdapter<>(this, messageList);
         messageList.setAdapter(msgListAdapter);
 
     }
@@ -70,26 +71,21 @@ public class TestInputViewActivity extends AppCompatActivity {
         chatInputView.setCustomMenuClickListener(new MenuEventListener() {
             @Override
             public boolean onMenuItemClick(String tag, MenuItem menuItem) {
-                if (tag.equals(Menu.TAG_SEND)) {
-                    handleSendMsg(chatInputView.getInputView().getText().toString());
-
-                }
-
                 return true;
             }
 
             @Override
             public void onMenuFeatureVisibilityChanged(int visibility, String tag, MenuFeature menuFeature) {
+                if (visibility == View.VISIBLE) {
+                    messageList.scrollToEnd();
+                }
 
             }
         });
+
+        chatInputView.setMenuClickListener(this);
     }
 
-
-    private void handleSendMsg(String msg) {
-        Message message = new Message(MessageType.SEND_TEXT.value, msg);
-        msgListAdapter.addToStart(message, true);
-    }
 
     private void initData() {
         List<IMessage> list = new ArrayList<>();
@@ -98,7 +94,7 @@ public class TestInputViewActivity extends AppCompatActivity {
             list.add(message);
         }
 
-        msgListAdapter.addToEndChronologically(list);
+        msgListAdapter.addToStartChronologically(list);
     }
 
 
@@ -108,4 +104,44 @@ public class TestInputViewActivity extends AppCompatActivity {
         ImmersionBar.with(this).destroy();
     }
 
+    @Override
+    public boolean onSendTextMessage(CharSequence input) {
+        handleSendMsg(input.toString());
+        return true;
+    }
+
+    private void handleSendMsg(String msg) {
+        Message message = new Message(MessageType.SEND_TEXT.value, msg);
+        msgListAdapter.addToEnd(message, true);
+    }
+
+    @Override
+    public void onSendFiles(List<FileItem> list) {
+
+    }
+
+    @Override
+    public boolean switchToAudioMode() {
+        return false;
+    }
+
+    @Override
+    public boolean switchToGalleryMode() {
+        return false;
+    }
+
+    @Override
+    public boolean switchToCameraMode() {
+        return false;
+    }
+
+    @Override
+    public boolean switchToEmojiMode() {
+        return false;
+    }
+
+    @Override
+    public void editViewOnTouch() {
+        messageList.scrollToEnd();
+    }
 }

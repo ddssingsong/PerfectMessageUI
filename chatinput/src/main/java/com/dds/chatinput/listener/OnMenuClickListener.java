@@ -26,4 +26,6 @@ public interface OnMenuClickListener {
     boolean switchToCameraMode();
 
     boolean switchToEmojiMode();
+
+    void editViewOnTouch();
 }

@@ -88,7 +88,7 @@ public class Message implements IMessage {
     @Override
     public String getTimeString() {
         //todo 测试
-        if (count > 5) {
+        if (count > 10) {
             count = 0;
             return "3月2日 晚上12:32";
         }

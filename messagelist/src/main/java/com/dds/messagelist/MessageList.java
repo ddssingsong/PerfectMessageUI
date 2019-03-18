@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 
 import com.dds.messagelist.model.IMessage;
 
@@ -15,6 +16,7 @@ import com.dds.messagelist.model.IMessage;
  * android_shuai@163.com
  */
 public class MessageList extends RecyclerView {
+    private LinearLayoutManager layoutManager;
     private MsgListAdapter mAdapter;
     private Context mContext;
 
@@ -38,17 +40,38 @@ public class MessageList extends RecyclerView {
     public <MESSAGE extends IMessage> void setAdapter(MsgListAdapter<MESSAGE> adapter) {
         mAdapter = adapter;
         SimpleItemAnimator itemAnimator = new DefaultItemAnimator();
-        itemAnimator.setSupportsChangeAnimations(false);
-        itemAnimator.setAddDuration(0);
-        itemAnimator.setChangeDuration(0);
-        itemAnimator.setMoveDuration(0);
-        itemAnimator.setRemoveDuration(0);
+//        itemAnimator.setSupportsChangeAnimations(false);
+//        itemAnimator.setAddDuration(0);
+//        itemAnimator.setChangeDuration(0);
+//        itemAnimator.setMoveDuration(0);
+//        itemAnimator.setRemoveDuration(0);
         setItemAnimator(itemAnimator);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
-        layoutManager.setStackFromEnd(true);
+        layoutManager = new LinearLayoutManager(getContext());
+        // layoutManager.setStackFromEnd(true);
         setLayoutManager(layoutManager);
         adapter.setLayoutManager(layoutManager);
         super.setAdapter(adapter);
+
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        return super.onTouchEvent(e);
+    }
+
+    public void scrollToEnd() {
+        if (layoutManager != null) {
+            postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (layoutManager != null && mAdapter != null) {
+                        layoutManager.scrollToPosition(mAdapter.getItemCount() - 1);
+                    }
+
+                }
+            }, 100);
+
+        }
 
     }
 }

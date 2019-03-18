@@ -56,7 +56,7 @@ public class TestMsgListActivity extends AppCompatActivity {
     }
 
     private void initVar() {
-        msgListAdapter = new MsgListAdapter<>(this);
+        msgListAdapter = new MsgListAdapter<>(this, messageList);
         messageList.setAdapter(msgListAdapter);
 
     }
@@ -68,7 +68,7 @@ public class TestMsgListActivity extends AppCompatActivity {
             list.add(message);
         }
 
-        msgListAdapter.addToEndChronologically(list);
+        msgListAdapter.addToStartChronologically(list);
     }
 
     boolean isSender = false;
@@ -76,11 +76,11 @@ public class TestMsgListActivity extends AppCompatActivity {
     public void OnClickAdd(View view) {
         if (isSender) {
             Message message = new Message(MessageType.SEND_TEXT.value, "hello 我是发送者,hello 我是发送者,hello 我是发送者,hello 我是发送者,hello 我是发送者");
-            msgListAdapter.addToStart(message, true);
+            msgListAdapter.addToEnd(message, true);
             isSender = false;
         } else {
             Message message = new Message(MessageType.RECEIVE_TEXT.value, "hello，我是接收者,hello，我是接收者.hello，我是接收者,hello，我是接收者,hello，我是接收者");
-            msgListAdapter.addToStart(message, true);
+            msgListAdapter.addToEnd(message, true);
             isSender = true;
         }
 

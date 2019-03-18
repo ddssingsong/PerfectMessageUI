@@ -52,6 +52,8 @@ public class MenuManager {
 
     private void initCollection() {
         mMenuItemCollection = new MenuItemCollection(mContext);
+        mMenuItemCollection.addCustomMenuItem(Menu.TAG_SEND, R.layout.ci_menu_item_send);
+
         mMenuItemCollection.setMenuCollectionChangedListener(new MenuCollection.MenuCollectionChangedListener() {
             @Override
             public void addMenu(String menuTag, View menu) {
@@ -64,8 +66,6 @@ public class MenuManager {
                         if (mMenuEventListener != null && mMenuEventListener.onMenuItemClick(tag, (MenuItem) v)) {
                             showMenuFeatureByTag(tag);
                         }
-
-
                     }
                 });
             }
@@ -74,7 +74,6 @@ public class MenuManager {
         mMenuItemCollection.addCustomMenuItem(Menu.TAG_GALLERY, R.layout.ci_menu_item_photo);
         mMenuItemCollection.addCustomMenuItem(Menu.TAG_CAMERA, R.layout.ci_menu_item_camera);
         mMenuItemCollection.addCustomMenuItem(Menu.TAG_EMOJI, R.layout.ci_menu_item_emoji);
-        mMenuItemCollection.addCustomMenuItem(Menu.TAG_SEND, R.layout.ci_menu_item_send);
 
 
         mMenuFeatureCollection = new MenuFeatureCollection(mContext);
