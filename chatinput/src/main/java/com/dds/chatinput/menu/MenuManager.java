@@ -139,6 +139,18 @@ public class MenuManager {
 
     }
 
+    public boolean isMenuFeatureVisible() {
+        boolean isVisible = false;
+        for (View menuFeature : mMenuFeatureCollection.values()) {
+            isVisible = menuFeature.getVisibility() == View.VISIBLE;
+            if (isVisible) break;
+        }
+
+        return mMenuContainer.getVisibility() == VISIBLE && isVisible;
+
+    }
+
+
     // ==========================================================================================
     // 设置菜单位置
     public void setMenu(Menu menu) {

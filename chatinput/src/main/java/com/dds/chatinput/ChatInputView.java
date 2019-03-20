@@ -134,7 +134,7 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
             if (isKeyboardVisible()) {
                 ViewGroup.LayoutParams params = mMenuContainer.getLayoutParams();
                 int distance = getDistanceFromInputToBottom();
-                Log.d(TAG, "Distance from bottom: " + distance);
+                Log.d(TAG, "Distance from bottom1: " + distance);
                 if (distance < mHeight / 2 && distance > 300 && distance != params.height) {
                     params.height = distance;
                     mMenuContainer.setLayoutParams(params);
@@ -142,6 +142,8 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
                 }
                 return false;
             } else {
+                int distance = getDistanceFromInputToBottom();
+                Log.d(TAG, "Distance from bottom2: " + distance);
                 showMenuLayout();
                 mPendingShowMenu = false;
                 return false;
@@ -191,8 +193,8 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
     public boolean onTouch(View v, MotionEvent event) {
         if (mListener != null) {
             mListener.editViewOnTouch();
-        }
 
+        }
         return false;
     }
 
@@ -269,6 +271,7 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
     private boolean onSubmit() {
         return mListener != null && mListener.onSendTextMessage(mInput);
     }
+
     //==============================================================================================
 
     private int mHeight;
@@ -276,9 +279,13 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
     private boolean showBottomMenu = true;
 
     public boolean isKeyboardVisible() {
-        return (getDistanceFromInputToBottom() > 300 && mMenuContainer.getVisibility() == GONE)
-                || (getDistanceFromInputToBottom() > (mMenuContainer.getHeight() + 300)
-                && mMenuContainer.getVisibility() == VISIBLE);
+        ViewGroup view = (ViewGroup) mMenuItem.getParent();
+        view.getGlobalVisibleRect(mRect);
+        int result = mHeight - (mRect.bottom);
+        return result > 200;
+
+//        return (getDistanceFromInputToBottom() > 300 && mMenuContainer.getVisibility() == GONE) ||
+//                (getDistanceFromInputToBottom() > (mMenuContainer.getHeight() + 300) && mMenuContainer.getVisibility() == VISIBLE);
     }
 
     public int getDistanceFromInputToBottom() {
@@ -288,7 +295,7 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
             mChatInputContainer.getGlobalVisibleRect(mRect);
         }
         int result = mHeight - (mRect.bottom);
-        Log.d(TAG, "屏幕底部-菜单项底部=" + result);
+        // Log.d(TAG, "屏幕底部-菜单项底部=" + result);
         return result;
     }
 
@@ -333,6 +340,10 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
             view.setVisibility(View.GONE);
         }
         invalidate();
+    }
+
+    public boolean isMenuFeatureVisible() {
+        return mMenuManager.isMenuFeatureVisible();
     }
 
     //==============================================================================================

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.widget.LinearLayout;
 
 import com.dds.messagelist.model.IMessage;
 
@@ -67,11 +68,23 @@ public class MessageList extends RecyclerView {
                     if (layoutManager != null && mAdapter != null) {
                         layoutManager.scrollToPosition(mAdapter.getItemCount() - 1);
                     }
-
                 }
-            }, 100);
+            }, 200);
 
         }
 
     }
+
+    private void lockContentHeight() {
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) getLayoutParams();
+        params.height = getHeight();
+        params.weight = 0.0F;
+
+    }
+
+    private void unlockContentHeightDelayed() {
+        ((LinearLayout.LayoutParams) getLayoutParams()).weight = 1.0F;
+    }
+
+
 }

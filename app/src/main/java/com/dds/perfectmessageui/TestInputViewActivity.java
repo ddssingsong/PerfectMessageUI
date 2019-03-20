@@ -78,6 +78,7 @@ public class TestInputViewActivity extends AppCompatActivity implements OnMenuCl
             public void onMenuFeatureVisibilityChanged(int visibility, String tag, MenuFeature menuFeature) {
                 if (visibility == View.VISIBLE) {
                     messageList.scrollToEnd();
+                } else {
                 }
 
             }
@@ -138,6 +139,17 @@ public class TestInputViewActivity extends AppCompatActivity implements OnMenuCl
     @Override
     public boolean switchToEmojiMode() {
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (chatInputView.isMenuFeatureVisible()) {
+            chatInputView.dismissMenuLayout();
+        } else {
+            super.onBackPressed();
+        }
+
+
     }
 
     @Override
