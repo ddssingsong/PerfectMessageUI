@@ -112,7 +112,6 @@ public class MenuManager {
             mChatInputView.showMenuLayout();
 
         }
-
         // 隐藏其他菜单项
         mChatInputView.hideDefaultMenuLayout();
         // 隐藏上一个menu

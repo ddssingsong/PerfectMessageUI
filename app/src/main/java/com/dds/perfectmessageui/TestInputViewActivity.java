@@ -42,6 +42,8 @@ public class TestInputViewActivity extends AppCompatActivity implements OnMenuCl
         ImmersionBar.with(this)
                 .statusBarColor(R.color.colorPrimary)
                 .statusBarDarkFont(true)
+                .navigationBarColor(R.color.colorPrimary)
+                .navigationBarDarkIcon(true)
                 .init();
         setContentView(R.layout.activity_test_input_view);
         initView();

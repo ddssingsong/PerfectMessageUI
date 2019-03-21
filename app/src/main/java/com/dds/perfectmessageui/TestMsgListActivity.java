@@ -34,6 +34,8 @@ public class TestMsgListActivity extends AppCompatActivity {
         ImmersionBar.with(this)
                 .statusBarColor(R.color.colorPrimary)
                 .statusBarDarkFont(true)
+                .navigationBarColor(android.R.color.transparent)
+                .navigationBarDarkIcon(true)
                 .init();
         setContentView(R.layout.activity_message);
         initView();
