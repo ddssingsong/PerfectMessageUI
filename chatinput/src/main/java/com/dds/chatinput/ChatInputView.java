@@ -6,14 +6,12 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Build;
-import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -29,14 +27,14 @@ import com.dds.chatinput.menu.MenuManager;
 import com.dds.chatinput.menu.utils.EmoticonsKeyboardUtils;
 import com.dds.chatinput.menu.utils.SimpleCommonUtils;
 import com.dds.chatinput.sp.SpUtils;
-import com.dds.chatinput.utils.OsUtil;
 
 /**
- * 聊天底部菜单和输入框
+ * 聊天界面底部 菜单和输入框
  * Created by dds on 2019/3/4.
  * android_shuai@163.com
  */
-public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPreDrawListener, View.OnClickListener, TextWatcher, View.OnTouchListener, ViewTreeObserver.OnGlobalLayoutListener {
+public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPreDrawListener,
+        View.OnClickListener, TextWatcher, ViewTreeObserver.OnGlobalLayoutListener {
 
     private static final String TAG = SimpleCommonUtils.formatTag(ChatInputView.class.getSimpleName());
 
@@ -57,7 +55,6 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
 
     private OnMenuClickListener mListener;
     private Context mContext;
-    boolean isBarShow;
 
     public ChatInputView(Context context) {
         super(context);
@@ -75,7 +72,6 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
     }
 
     private int mScreenHeight;
-    private int mScreenHeight2;
 
     private void init(Context context) {
         mContext = context;
@@ -87,11 +83,6 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
 
         DisplayMetrics dm = getResources().getDisplayMetrics();
         mScreenHeight = dm.heightPixels;
-        Log.d(TAG, "mScreenHeight1:" + mScreenHeight);
-//        DisplayMetrics dm1 = new DisplayMetrics();
-//        ((Activity) context).getWindowManager().getDefaultDisplay().getRealMetrics(dm1);
-//        mScreenHeight2 = dm1.heightPixels;
-//        Log.d(TAG, "mScreenHeight2:" + mScreenHeight2);
 
         mMenuContainer.setVisibility(View.GONE);
 
@@ -113,8 +104,6 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
         mSendBtn.setClickable(false);
         mSendBtn.setEnabled(false);
 
-        mChatInput.setOnTouchListener(this);
-
 
     }
 
@@ -124,24 +113,26 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
 
     @Override
     public void onWindowFocusChanged(boolean hasWindowFocus) {
-        Log.d(TAG, "Window focus changed, hasWindowFocus: " + hasWindowFocus);
         super.onWindowFocusChanged(hasWindowFocus);
         this.getRootView().getGlobalVisibleRect(mRect);
         if (hasWindowFocus && mHeight <= 0) {
             this.getRootView().getGlobalVisibleRect(mRect);
             mHeight = mRect.bottom;
-            Log.d(TAG, "Window focus changed, height: " + mHeight);
             ViewGroup.LayoutParams params = mMenuContainer.getLayoutParams();
-            params.height = SpUtils.getSoftHeight(getContext());
+            softHeight = SpUtils.getSoftHeight(getContext());
+            params.height = softHeight;
         }
         // 添加软键盘弹出的监听
+        getRootView().getViewTreeObserver().addOnGlobalLayoutListener(this);
         getViewTreeObserver().addOnPreDrawListener(this);
     }
 
     @Override
     protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
+        getRootView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
         getViewTreeObserver().removeOnPreDrawListener(this);
+        super.onDetachedFromWindow();
+
     }
 
     @Override
@@ -149,28 +140,10 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
         if (mPendingShowMenu) {
             if (isKeyboardVisible()) {
                 ViewGroup.LayoutParams params = mMenuContainer.getLayoutParams();
-                int distance = getDistanceFromInputToBottom();
-                if (OsUtil.isMiui()) {
-                    Log.e(TAG, "isBarShow:" + isBarShow);
-                    isBarShow = Settings.Global.getInt(mContext.getContentResolver(), "force_fsg_nav_bar", 0) == 0;
-                    if (isBarShow) {
-                        // 显示虚拟键
-                        distance = distance + (mScreenHeight - mHeight);
-                    } else {
-                        // 全面屏不显示虚拟键
-                    }
-                } else {
-                    distance = distance + (mScreenHeight - mHeight);
-                }
-
-                Log.d(TAG, "Distance from bottom1: " + distance + ",params.height:" + params.height);
-                if (distance < mHeight / 2 && distance > 300 && distance != params.height) {
-                    mMenuContainer.setLayoutParams(params);
-                    params.height = distance;
-
-                    Log.d(TAG, "save softKeyboard height : " + params.height);
-                    SpUtils.setSoftHeight(getContext(), params.height);
-                }
+                int distance = softHeight;
+                Log.d(TAG, "设置菜单高度:" + distance);
+                mMenuContainer.setLayoutParams(params);
+                params.height = distance;
                 return false;
             } else {
                 showMenuLayout();
@@ -186,34 +159,53 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
         return true;
     }
 
+
+    private int rootViewVisibleHeight;  // 记录根视图的高度
+    private int softHeight;             // 记录软键盘高度
+
+
     @Override
     public void onGlobalLayout() {
-        if (isKeyboardVisible()) {
-            ViewGroup.LayoutParams params = mMenuContainer.getLayoutParams();
-            int distance = getDistanceFromInputToBottom();
-            Log.d(TAG, "Distance from bottom1: " + distance + ",params.height:" + params.height);
-            if (distance < mHeight / 2 && distance > 300 && distance != params.height) {
-                params.height = distance + (mScreenHeight - mHeight);
-                mMenuContainer.setLayoutParams(params);
-                Log.d(TAG, "save softKeyboard height : " + distance);
-                SpUtils.setSoftHeight(getContext(), distance);
+        Rect r = new Rect();
+        View view = getRootView();
+        view.getWindowVisibleDisplayFrame(r);
+        int visibleHeight = r.height();
+
+        if (rootViewVisibleHeight == 0) {
+            rootViewVisibleHeight = visibleHeight;
+            return;
+        }
+        if (rootViewVisibleHeight == visibleHeight) {
+            return;
+        }
+        int diff = visibleHeight - rootViewVisibleHeight;
+        Log.d(TAG, "diff:" + diff);
+        // 软键盘弹出
+        if (diff < -250) {
+            if (softHeight != diff) {
+                softHeight = -diff;
+                Log.d(TAG, "save soft height:" + -diff);
+                SpUtils.setSoftHeight(mContext, -diff);
+
             }
-        } else {
-            if (mPendingShowMenu) {
-                showMenuLayout();
-            }
+            rootViewVisibleHeight = visibleHeight;
+        }
+
+        //软键盘隐藏
+        if (diff > 250) {
 
         }
+
 
     }
 
     @Override
     public void onClick(View v) {
         if (v == mSendBtn) {
+            //发送消息
             if (onSubmit()) {
                 mChatInput.setText("");
             }
-
         }
 
     }
@@ -238,15 +230,8 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
 
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        if (mListener != null) {
-            mListener.editViewOnTouch();
 
-        }
-        return false;
-    }
-
+    //发送按钮显示动画
     private void triggerSendButtonAnimation(final ImageButton sendBtn, final boolean hasContent) {
         mSendBtn.setEnabled(hasContent);
         mSendBtn.setClickable(hasContent);
@@ -317,6 +302,8 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
         shrinkAnimatorSet.start();
     }
 
+
+    //发送文字消息
     private boolean onSubmit() {
         return mListener != null && mListener.onSendTextMessage(mInput);
     }
@@ -335,16 +322,6 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
         return result > 250;
 
     }
-
-    public int getDistanceFromInputToBottom() {
-        if (isShowBottomMenu()) {
-            mMenuItem.getGlobalVisibleRect(mRect);
-        } else {
-            mChatInputContainer.getGlobalVisibleRect(mRect);
-        }
-        return mHeight - mRect.bottom;
-    }
-
 
     public void setShowBottomMenu(Boolean showBottomMenu) {
         this.showBottomMenu = showBottomMenu;
@@ -379,14 +356,6 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
         mMenuContainer.setVisibility(VISIBLE);
     }
 
-    public void hideDefaultMenuLayout() {
-        int count = mMenuContainer.getChildCount();
-        for (int i = 0; i < count; i++) {
-            View view = mMenuContainer.getChildAt(i);
-            view.setVisibility(View.GONE);
-        }
-        invalidate();
-    }
 
     public boolean isMenuFeatureVisible() {
         return mMenuManager.isMenuFeatureVisible();

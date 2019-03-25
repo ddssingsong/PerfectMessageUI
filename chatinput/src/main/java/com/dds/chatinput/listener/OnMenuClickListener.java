@@ -27,5 +27,5 @@ public interface OnMenuClickListener {
 
     boolean switchToEmojiMode();
 
-    void editViewOnTouch();
+
 }

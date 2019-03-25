@@ -73,7 +73,6 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             mRecyclerView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mRecyclerView.requestLayout();
                     mLayoutManager.smoothScrollToPosition(mRecyclerView, null, oldSize + 1);
                 }
             }, 100);

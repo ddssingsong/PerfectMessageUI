@@ -78,10 +78,6 @@ public class TestInputViewActivity extends AppCompatActivity implements OnMenuCl
 
             @Override
             public void onMenuFeatureVisibilityChanged(int visibility, String tag, MenuFeature menuFeature) {
-                if (visibility == View.VISIBLE) {
-                    messageList.scrollToEnd();
-                } else {
-                }
 
             }
         });
@@ -92,7 +88,7 @@ public class TestInputViewActivity extends AppCompatActivity implements OnMenuCl
 
     private void initData() {
         List<IMessage> list = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 2; i++) {
             Message message = new Message(MessageType.SEND_TEXT.value, "hello" + i);
             list.add(message);
         }
@@ -150,12 +146,6 @@ public class TestInputViewActivity extends AppCompatActivity implements OnMenuCl
         } else {
             super.onBackPressed();
         }
-
-
     }
 
-    @Override
-    public void editViewOnTouch() {
-        messageList.scrollToEnd();
-    }
 }

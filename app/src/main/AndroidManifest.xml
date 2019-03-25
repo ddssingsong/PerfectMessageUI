@@ -21,7 +21,9 @@
         tools:targetApi="o">
         <activity
             android:name=".TestInputViewActivity"
-            android:windowSoftInputMode="stateUnspecified" />
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <!-- 适配全面屏 -->
         <meta-data
             android:name="android.max_aspect"

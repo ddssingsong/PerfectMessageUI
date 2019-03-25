@@ -105,15 +105,15 @@ public class MenuManager {
         }
 
         if (mChatInputView.isKeyboardVisible()) {
+            Log.e(TAG,"isKeyboardVisible.....");
             // 如果软件开启状态则关闭软件盘
             mChatInputView.setPendingShowMenu(true);
             EmoticonsKeyboardUtils.closeSoftKeyboard(mChatInputView.getInputView());
         } else {
+            Log.e(TAG,"MenuManager showMenuLayout");
             mChatInputView.showMenuLayout();
 
         }
-        // 隐藏其他菜单项
-        mChatInputView.hideDefaultMenuLayout();
         // 隐藏上一个menu
         hideCustomMenu();
         // 显示改菜单项
