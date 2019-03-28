@@ -28,4 +28,9 @@ public interface OnMenuClickListener {
     boolean switchToEmojiMode();
 
 
+    void toggleSoftVisible();
+
+    void toggleSoftInVisible();
+
+
 }

@@ -56,13 +56,20 @@ public class MessageList extends RecyclerView {
 
     public void setStackFromEnd(boolean isTrue) {
         layoutManager.setStackFromEnd(isTrue);
-        if (mAdapter != null) {
-            mAdapter.notifyDataSetChanged();
-        }
     }
 
-    public boolean isStackFromEndTrue() {
+    public boolean isStackFromEnd() {
         return layoutManager.getStackFromEnd();
+    }
+
+    /**
+     * canScrollVertically(1)的值表示是否能向上滚动，false表示已经滚动到底部
+     * canScrollVertically(-1)的值表示是否能向下滚动，false表示已经滚动到顶部
+     *
+     * @return true 还能滑动  false 不能滑动了
+     */
+    public boolean canScrollVertically() {
+        return canScrollVertically(1);
     }
 
 }

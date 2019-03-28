@@ -10,7 +10,6 @@ import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +70,6 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
         initAttrs(context, attrs);
     }
 
-    private int mScreenHeight;
 
     private void init(Context context) {
         mContext = context;
@@ -81,14 +79,9 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
         mMenuContainer = findViewById(R.id.ci_menu_container);
         mChatInput = findViewById(R.id.aurora_et_chat_input);
 
-        DisplayMetrics dm = getResources().getDisplayMetrics();
-        mScreenHeight = dm.heightPixels;
-
         mMenuContainer.setVisibility(View.GONE);
 
-
         mMenuManager = new MenuManager(this);
-
         mMenuManager.setMenu(Menu.newBuilder().
                 customize(true).
                 setRight(Menu.TAG_SEND).
@@ -139,8 +132,8 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
     public boolean onPreDraw() {
         if (mPendingShowMenu) {
             if (isKeyboardVisible()) {
-                ViewGroup.LayoutParams params = mMenuContainer.getLayoutParams();
                 int distance = softHeight;
+                ViewGroup.LayoutParams params = mMenuContainer.getLayoutParams();
                 Log.d(TAG, "设置菜单高度:" + distance);
                 mMenuContainer.setLayoutParams(params);
                 params.height = distance;
@@ -189,11 +182,16 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
 
             }
             rootViewVisibleHeight = visibleHeight;
+
+            if (mListener != null) {
+                mListener.toggleSoftVisible();
+            }
         }
 
         //软键盘隐藏
         if (diff > 250) {
-
+            mListener.toggleSoftInVisible();
+            rootViewVisibleHeight = visibleHeight;
         }
 
 

@@ -3,13 +3,16 @@ package com.dds.perfectmessageui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.dds.chatinput.ChatInputView;
 import com.dds.chatinput.listener.OnMenuClickListener;
 import com.dds.chatinput.menu.MenuEventListener;
+import com.dds.chatinput.menu.utils.SimpleCommonUtils;
 import com.dds.chatinput.menu.view.MenuFeature;
 import com.dds.chatinput.menu.view.MenuItem;
 import com.dds.chatinput.model.FileItem;
@@ -24,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestInputViewActivity extends AppCompatActivity implements OnMenuClickListener {
+    private static final String TAG = SimpleCommonUtils.formatTag(TestInputViewActivity.class.getSimpleName());
+
     private Toolbar toolbar;
     private MessageList messageList;
     private MsgListAdapter<IMessage> msgListAdapter;
@@ -73,11 +78,19 @@ public class TestInputViewActivity extends AppCompatActivity implements OnMenuCl
         chatInputView.setCustomMenuClickListener(new MenuEventListener() {
             @Override
             public boolean onMenuItemClick(String tag, MenuItem menuItem) {
+                Log.d(TAG, "isStackFromEnd:" + messageList.isStackFromEnd());
+                Log.d(TAG, "canScrollVertically:" + messageList.canScrollVertically());
+                if (!messageList.isStackFromEnd()) {
+                    if (messageList.canScrollVertically()) {
+                        messageList.setStackFromEnd(true);
+                    }
+                }
                 return true;
             }
 
             @Override
             public void onMenuFeatureVisibilityChanged(int visibility, String tag, MenuFeature menuFeature) {
+
 
             }
         });
@@ -88,8 +101,8 @@ public class TestInputViewActivity extends AppCompatActivity implements OnMenuCl
 
     private void initData() {
         List<IMessage> list = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            Message message = new Message(MessageType.SEND_TEXT.value, "hello" + i);
+        for (int i = 0; i < 1; i++) {
+            Message message = new Message(MessageType.SEND_TEXT.value, "我是一条消息，" + i);
             list.add(message);
         }
 
@@ -137,6 +150,31 @@ public class TestInputViewActivity extends AppCompatActivity implements OnMenuCl
     @Override
     public boolean switchToEmojiMode() {
         return false;
+    }
+
+    @Override
+    public void toggleSoftVisible() {
+        Log.e(TAG, "toggleSoftVisible");
+        Log.d(TAG, "isStackFromEnd:" + messageList.isStackFromEnd());
+        Log.d(TAG, "canScrollVertically:" + messageList.canScrollVertically());
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!messageList.isStackFromEnd()) {
+                    if (messageList.canScrollVertically()) {
+                        messageList.setStackFromEnd(true);
+                    }
+                }
+            }
+        }, 100);
+
+
+    }
+
+    @Override
+    public void toggleSoftInVisible() {
+        Log.e(TAG, "toggleSoftInVisible");
+
     }
 
     @Override
