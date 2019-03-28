@@ -1,0 +1,24 @@
+@startuml
+Title "消息类型"
+enum MessageType {
+    EVENT(0),
+
+    SEND_TEXT(1),
+    RECEIVE_TEXT(2),
+
+    SEND_IMAGE(3),
+    RECEIVE_IMAGE(4),
+
+    SEND_VOICE(5),
+    RECEIVE_VOICE(6),
+
+    SEND_VIDEO(7),
+    RECEIVE_VIDEO(8),
+
+    SEND_LOCATION(9),
+    RECEIVE_LOCATION(10),
+
+    SEND_FILE(11),
+    RECEIVE_FILE(12);
+}
+@enduml

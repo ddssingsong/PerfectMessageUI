@@ -1,0 +1,67 @@
+@startuml
+Title "消息实体"
+interface IMessage{
+    String getMsgId();
+    IUser getFromUser();
+    String getTimeString();
+    String getText();
+    String getMediaFilePath();
+    long getDuration();
+    String getProgress();
+    int getType();@return 消息类型{@link MessageType}
+    MessageStatus getMessageStatus();@return 消息状态{@link MessageStatus}
+}
+@enduml
+
+//=========================================================================
+
+@startuml
+Title "消息实体"
+interface IMessage{
+    String getMsgId();// 消息ID
+    IUser getFromUser();@return 用户信息 {@link IUser}
+    String getTimeString();// 显示时间
+    String getText();      //消息内容
+    String getMediaFilePath();// 媒体路径
+    long getDuration();       // 媒体时长
+    String getProgress();     // 发送或者接收进度
+    int getType();@return 消息类型{@link MessageType}
+    MessageStatus getMessageStatus();@return 消息状态{@link MessageStatus}
+}
+
+interface IUser{
+    String getId();         //用户
+    String getDisplayName();// 显示名称
+    String getAvatar();     // 头像
+}
+enum MessageStatus{
+    CREATED(0),        创建
+    SEND_ING(1),       发送中
+    SEND_SUCCEED(2),   发送成功
+    SEND_FAILED(3),    发送失败
+
+    RECEIVE_ING(10),    接收中
+    RECEIVE_SUCCEED(11),接收成功
+    RECEIVE_FAILED(12); 接收失败
+}
+
+enum MessageType {
+    EVENT(0), //控制类消息
+    SEND_TEXT(1),
+    RECEIVE_TEXT(2),
+    SEND_IMAGE(3),
+    RECEIVE_IMAGE(4),
+    SEND_VOICE(5),
+    RECEIVE_VOICE(6),
+    SEND_VIDEO(7),
+    RECEIVE_VIDEO(8),
+    SEND_LOCATION(9),
+    RECEIVE_LOCATION(10),
+    SEND_FILE(11),
+    RECEIVE_FILE(12);
+}
+
+IMessage o-- IUser
+IMessage *-- MessageStatus
+IMessage *-- MessageType
+@enduml

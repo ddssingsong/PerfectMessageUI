@@ -8,7 +8,9 @@ PerfectMessageUI 是一聊天界面UI，通过严谨的框架结构实现界面�
 
 ## 设计解读
 
-模块介绍
+消息实体类
+
+![消息实体类](https://github.com/ddssingsong/PerfectMessageUI/blob/master/uml/IMessage1.png)
 
 
 
