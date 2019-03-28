@@ -24,7 +24,7 @@ import com.dds.chatinput.menu.Menu;
 import com.dds.chatinput.menu.MenuEventListener;
 import com.dds.chatinput.menu.MenuManager;
 import com.dds.chatinput.menu.utils.EmoticonsKeyboardUtils;
-import com.dds.chatinput.menu.utils.SimpleCommonUtils;
+import com.dds.chatinput.menu.utils.CommonUtils;
 import com.dds.chatinput.sp.SpUtils;
 
 /**
@@ -35,10 +35,10 @@ import com.dds.chatinput.sp.SpUtils;
 public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPreDrawListener,
         View.OnClickListener, TextWatcher, ViewTreeObserver.OnGlobalLayoutListener {
 
-    private static final String TAG = SimpleCommonUtils.formatTag(ChatInputView.class.getSimpleName());
+    private static final String TAG = CommonUtils.formatTag(ChatInputView.class.getSimpleName());
 
     private LinearLayout mChatInputContainer; // 输入框
-    private LinearLayout mMenuItem;           // 菜单
+    private LinearLayout mMenuItem;           // 菜单Item
     private FrameLayout mMenuContainer;       // 菜单界面
     private EditText mChatInput;
     private CharSequence mInput;
@@ -174,26 +174,26 @@ public class ChatInputView extends LinearLayout implements ViewTreeObserver.OnPr
         int diff = visibleHeight - rootViewVisibleHeight;
         Log.d(TAG, "diff:" + diff);
         // 软键盘弹出
-        if (diff < -250) {
+        if (diff < -(mHeight / 5) && Math.abs(diff) < mHeight / 2) {
             if (softHeight != diff) {
                 softHeight = -diff;
                 Log.d(TAG, "save soft height:" + -diff);
                 SpUtils.setSoftHeight(mContext, -diff);
 
             }
-            rootViewVisibleHeight = visibleHeight;
-
             if (mListener != null) {
                 mListener.toggleSoftVisible();
             }
         }
 
         //软键盘隐藏
-        if (diff > 250) {
-            mListener.toggleSoftInVisible();
-            rootViewVisibleHeight = visibleHeight;
-        }
+        if (diff > mHeight / 5) {
+            if (mListener != null) {
+                mListener.toggleSoftInVisible();
+            }
 
+        }
+        rootViewVisibleHeight = visibleHeight;
 
     }
 

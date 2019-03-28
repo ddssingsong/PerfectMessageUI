@@ -12,7 +12,7 @@ import android.view.View;
 import com.dds.chatinput.ChatInputView;
 import com.dds.chatinput.listener.OnMenuClickListener;
 import com.dds.chatinput.menu.MenuEventListener;
-import com.dds.chatinput.menu.utils.SimpleCommonUtils;
+import com.dds.chatinput.menu.utils.CommonUtils;
 import com.dds.chatinput.menu.view.MenuFeature;
 import com.dds.chatinput.menu.view.MenuItem;
 import com.dds.chatinput.model.FileItem;
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestInputViewActivity extends AppCompatActivity implements OnMenuClickListener {
-    private static final String TAG = SimpleCommonUtils.formatTag(TestInputViewActivity.class.getSimpleName());
+    private static final String TAG = CommonUtils.formatTag(TestInputViewActivity.class.getSimpleName());
 
     private Toolbar toolbar;
     private MessageList messageList;

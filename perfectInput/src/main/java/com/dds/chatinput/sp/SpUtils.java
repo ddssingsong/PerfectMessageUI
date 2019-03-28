@@ -2,7 +2,8 @@ package com.dds.chatinput.sp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
+
+import com.dds.chatinput.menu.utils.ViewUtil;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -24,12 +25,8 @@ public class SpUtils {
 
     public static int getSoftHeight(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(SHARE_PREFERENCE_NAME, MODE_PRIVATE);
-        return preferences.getInt(SHARE_PREFERENCE_SOFT_INPUT_HEIGHT, dpToPx(350));
+        return preferences.getInt(SHARE_PREFERENCE_SOFT_INPUT_HEIGHT, ViewUtil.dpToPx(350));
 
     }
 
-    public static int dpToPx(int dp) {
-        float density = Resources.getSystem().getDisplayMetrics().density;
-        return Math.round(dp * density);
-    }
 }

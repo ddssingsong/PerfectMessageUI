@@ -54,6 +54,7 @@
         android:id="@+id/ci_menu_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center" />
+        android:gravity="center"
+        android:minHeight="350dp" />
 
 </LinearLayout>

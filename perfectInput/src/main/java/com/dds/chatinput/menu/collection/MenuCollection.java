@@ -6,14 +6,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.dds.chatinput.menu.utils.SimpleCommonUtils;
+import com.dds.chatinput.menu.utils.CommonUtils;
 
 import java.util.HashMap;
 
 
 public class MenuCollection extends HashMap<String, View> {
 
-    public static final String TAG = SimpleCommonUtils.formatTag(MenuCollection.class.getSimpleName());
+    public static final String TAG = CommonUtils.formatTag(MenuCollection.class.getSimpleName());
     protected Context mContext;
     protected LayoutInflater mInflater;
 

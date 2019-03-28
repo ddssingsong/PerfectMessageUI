@@ -12,7 +12,7 @@ import com.dds.chatinput.menu.collection.MenuCollection;
 import com.dds.chatinput.menu.collection.MenuFeatureCollection;
 import com.dds.chatinput.menu.collection.MenuItemCollection;
 import com.dds.chatinput.menu.utils.EmoticonsKeyboardUtils;
-import com.dds.chatinput.menu.utils.SimpleCommonUtils;
+import com.dds.chatinput.menu.utils.CommonUtils;
 import com.dds.chatinput.menu.view.MenuFeature;
 import com.dds.chatinput.menu.view.MenuItem;
 
@@ -25,7 +25,7 @@ import static android.view.View.VISIBLE;
  * android_shuai@163.com
  */
 public class MenuManager {
-    public static final String TAG = SimpleCommonUtils.formatTag(MenuManager.class.getSimpleName());
+    public static final String TAG = CommonUtils.formatTag(MenuManager.class.getSimpleName());
 
     private ChatInputView mChatInputView;
     private LinearLayout mChatInputContainer;
