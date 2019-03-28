@@ -1,1 +1,1 @@
-include ':app', ':messagelist', ':chatinput'
+include ':app', ':perfectMsgList', ':perfectInput'
