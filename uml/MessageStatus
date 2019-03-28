@@ -1,0 +1,13 @@
+@startuml
+Title "消息发送状态"
+enum MessageStatus{
+    CREATED(0),        创建
+    SEND_ING(1),       发送中
+    SEND_SUCCEED(2),   发送成功
+    SEND_FAILED(3),    发送失败
+
+    RECEIVE_ING(10),    接收中
+    RECEIVE_SUCCEED(11),接收成功
+    RECEIVE_FAILED(12); 接收失败
+}
+@enduml

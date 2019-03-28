@@ -1,0 +1,8 @@
+@startuml
+Title "消息发送状态"
+interface IUser{
+    String getId();         //用户
+    String getDisplayName();// 显示名称
+    String getAvatar();     // 头像
+}
+@enduml
