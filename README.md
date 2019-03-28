@@ -1,6 +1,6 @@
 ## PerfectMessageUI
 
-![Perfect](D:\github\PerfectMessageUI\images\Perfect.png)
+![Perfect](https://github.com/ddssingsong/PerfectMessageUI/blob/master/images/Perfect.png)
 
 ## 概述
 
